@@ -1,11 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+namespace WebdevToolbox;
 
 use Symfony\Component\Console\Application;
-use WebdevToolbox\Command\AdminerCommand;
 
-$application = new Application();
-$application->add(new AdminerCommand());
-$application->run();
+require __DIR__ . '/vendor/autoload.php';
+
+$app = new Application();
+$app->addCommands([
+    new Command\AdminerCommand(),
+    new Command\DockerShellCommand(),
+]);
+$app->run();
