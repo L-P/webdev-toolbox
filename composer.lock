@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "14dbadd73b5b63ab544293eb2d39693c",
+    "hash": "1cbb03b3dd3bec285c097443eaf5e782",
     "packages": [
         {
             "name": "lpeltier/struct",
-            "version": "0.1.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/L-P/struct.git",
-                "reference": "8decf8827e1442f6423d7152674fd894dbc4c697"
+                "reference": "f0e01fac17b70a8ffb074e3ad00c8a8ca5531867"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/L-P/struct/zipball/8decf8827e1442f6423d7152674fd894dbc4c697",
-                "reference": "8decf8827e1442f6423d7152674fd894dbc4c697",
+                "url": "https://api.github.com/repos/L-P/struct/zipball/f0e01fac17b70a8ffb074e3ad00c8a8ca5531867",
+                "reference": "f0e01fac17b70a8ffb074e3ad00c8a8ca5531867",
                 "shasum": ""
             },
             "require": {
@@ -44,20 +44,20 @@
                     "role": "developer"
                 }
             ],
-            "time": "2015-07-15 09:52:43"
+            "time": "2015-07-15 14:20:16"
         },
         {
             "name": "symfony/console",
-            "version": "v2.7.1",
+            "version": "v2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "564398bc1f33faf92fc2ec86859983d30eb81806"
+                "reference": "8cf484449130cabfd98dcb4694ca9945802a21ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/564398bc1f33faf92fc2ec86859983d30eb81806",
-                "reference": "564398bc1f33faf92fc2ec86859983d30eb81806",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/8cf484449130cabfd98dcb4694ca9945802a21ed",
+                "reference": "8cf484449130cabfd98dcb4694ca9945802a21ed",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-06-10 15:30:22"
+            "time": "2015-07-09 16:07:40"
         }
     ],
     "packages-dev": [],
