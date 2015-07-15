@@ -31,6 +31,12 @@ class DockerShellCommand extends Command
                 InputArgument::REQUIRED,
                 'Fuzzy search term to match against a container name.'
             )
+            ->addOption(
+                'dry-run',
+                null,
+                InputOption::VALUE_NONE,
+                'Don\'t actually login into the container.'
+            )
             ->setHelp(wordwrap(
                 "Container names are namespaced (eg. 'ns_actualname') and only "
                 . "the actual name will be matched against the search term.\n"
@@ -74,9 +80,10 @@ class DockerShellCommand extends Command
             $this->out->writeln(implode(' ', $command), "\n");
         }
 
-        pcntl_exec($command[0], array_slice($command, 1));
-
-        assert('false /* unreachable */');
+        if (!$input->getOption('dry-run')) {
+            pcntl_exec($command[0], array_slice($command, 1));
+            assert('false /* unreachable */');
+        }
     }
 
     /**
@@ -154,6 +161,9 @@ class DockerShellCommand extends Command
     /**
      * Return abritrary string likeness score, lower is closer.
      *
+     * Levenshtein alone is not enough, especially since its result depends
+     * greatly on the string length, so other scoring methods are used.
+     *
      * @param string $container
      * @param string $fuzz
      * @return float
@@ -164,9 +174,20 @@ class DockerShellCommand extends Command
 
         $scores = [
             'levenshtein' => levenshtein($fuzz, $name, 1, 3, 3),
-            'matches' => -1 * preg_match_all(sprintf('`[%s]`', $fuzz), $name),
+
+            // Each time one one the char from the fuzz appear, add -1.
+            'matches' => -1 * preg_match_all(
+                sprintf('`[%s]`', preg_quote($fuzz)),
+                $name
+            ),
         ];
 
+        /* Finding a whole substring adds a big bonus proportional to the
+         * substring length. Another bonus is given if the substring is close
+         * to the start of the name.
+         * A minor malus is given if nothing is found + the name length to be
+         * consistent with the start of string bonus.
+         */
         if (false !== ($pos = strpos($container, $fuzz))) {
              $scores['strpos'] = -1 * strlen($fuzz);
              $scores['strpospos'] = $pos;
