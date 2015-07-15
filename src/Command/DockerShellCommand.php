@@ -58,10 +58,14 @@ class DockerShellCommand extends Command
     {
         $this->out = $output;
 
-        $namespace = $this->inferNamespace(getcwd());
-        $containers = array_filter($this->getRunningContainerNames(), function ($name) use ($namespace) {
-            return explode('_', $name)[0] === $namespace;
-        });
+        try {
+            $namespace = $this->inferNamespace(getcwd());
+            $containers = array_filter($this->getRunningContainerNames(), function ($name) use ($namespace) {
+                return explode('_', $name)[0] === $namespace;
+            });
+        } catch (\RuntimeException $e) {
+            $containers = $this->getRunningContainerNames();
+        }
 
         $name = $this->fuzzyGetContainer($containers, $input->getArgument('term'));
         $command = $this->getCommandForContainer($name);
