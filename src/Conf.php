@@ -2,6 +2,26 @@
 
 namespace WebdevToolbox;
 
+/**
+ * Configuration handler for the docker-shell command.
+ *
+ * Sample configuration file:
+ *
+ *  {
+ *      "database": {
+ *          "user": "postgres"
+ *      },
+ *      "(memorycache|mailer)": {
+ *          "noLogin": true
+ *      },
+ *      "webserver": {
+ *          "user": "root"
+ *      }
+ *  }
+ *
+ * The key is a PCRE pattern that will me matched against the full container
+ * name. See ConfEntry for details.
+ */
 class Conf
 {
     /// @var ConfEntry[] {<pattern>: ConfEntry,}
