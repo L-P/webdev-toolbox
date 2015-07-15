@@ -2,8 +2,12 @@
 
 namespace WebdevToolbox;
 
+use lpeltier\Struct;
+
 class ConfEntry
 {
+    use Struct;
+
     /// @var string will be matched against the full container name.
     public $pattern = null;
 
@@ -12,25 +16,4 @@ class ConfEntry
 
     /// @var string|null user to login as, default to the current system user.
     public $user = null;
-
-    public function __construct(array $params = [])
-    {
-        foreach ($params as $k => $v) {
-            if (property_exists($this, $k)) {
-                $this->$k = $v;
-            } else {
-                $this->__set($k, $v);
-            }
-        }
-    }
-
-    public function __set($key, $value)
-    {
-        throw new \InvalidArgumentException("Invalid key `$key`.");
-    }
-
-    public function __get($key)
-    {
-        throw new \InvalidArgumentException("Invalid key `$key`.");
-    }
 }
