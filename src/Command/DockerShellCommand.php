@@ -24,7 +24,7 @@ class DockerShellCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('docker:shell')
+            ->setName('docker-shell')
             ->setDescription('Log into a docker container matched by a fuzzy name.')
             ->addArgument(
                 'term',
