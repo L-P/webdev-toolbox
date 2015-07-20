@@ -74,7 +74,7 @@ class AdminerCommand extends Command
     {
         exec(
             sprintf(
-                "netstat -plant 2> /dev/null | grep -E ':$port*php'",
+                "netstat -plant 2> /dev/null | grep -E '^tcp.*:$port.*php$'",
                 (int) $port
             ),
             $_,
