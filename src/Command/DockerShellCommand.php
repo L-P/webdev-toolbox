@@ -217,7 +217,7 @@ class DockerShellCommand extends Command
 
         if ($conf->noLogin) {
             return array_merge($baseArgs, [
-                '/bin/sh', 'TERM=xterm'
+                '/bin/sh',
             ]);
         } else {
             return array_merge($baseArgs, [
