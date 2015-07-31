@@ -54,7 +54,7 @@ class DockerShellCommand extends Command
 
         $this->conf = new Conf();
         $home = posix_getpwuid(posix_getuid())['dir'];
-        $path = "$home/.ds.json";
+        $path = "$home/.config/webdev-toolbox/docker-shell.json";
         if (file_exists($path)) {
             $this->conf->load($path);
         }
