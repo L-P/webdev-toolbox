@@ -75,10 +75,7 @@ class DockerShellCommand extends Command
 
         $name = $this->fuzzyGetContainer($containers, $input->getArgument('term'));
         $command = $this->getCommandForContainer($name);
-
-        if ($this->out->isVerbose()) {
-            $this->out->writeln(implode(' ', $command), "\n");
-        }
+        $this->out->writeln(implode(' ', $command), "\n");
 
         if (!$input->getOption('dry-run')) {
             pcntl_exec($command[0], array_slice($command, 1));
