@@ -11,5 +11,6 @@ $app = new Application();
 $app->addCommands([
     new Command\AdminerCommand(),
     new Command\DockerShellCommand(),
+    new Command\HttpPing(),
 ]);
 $app->run();
