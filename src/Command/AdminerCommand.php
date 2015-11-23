@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AdminerCommand extends Command
 {
-    const DOWNLOADS = [
+    protected $DOWNLOADS = [
         'index.php'   => 'https://adminer.org/latest-en.php',
         'adminer.css' => 'https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css'
     ];
@@ -26,7 +26,7 @@ class AdminerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $cacheDir = $this->getCacheDirPath();
-        $this->prepareCache($cacheDir, self::DOWNLOADS);
+        $this->prepareCache($cacheDir, self::$DOWNLOADS);
 
         $port = 8083;
         if ($this->serverIsRunning($port)) {
