@@ -50,3 +50,17 @@ against the full container name (including namespace).
     }
 }
 ```
+
+### httpping
+Ping an URL via HTTP/HTTPS and report the detailed timings.  
+Time are in milliseconds.
+
+  * time: timestamp
+  * size: bytes received
+  * timers:
+    * connecting: time spent to establish the TCP(+TLS) connection
+    * sending: time spent to send the HTTP request
+    * waiting: time we waited before we received the first byte from the server
+    * receiving: time spent receiving the whole response
+
+Pings are done synchronously.
