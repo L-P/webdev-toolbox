@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AdminerCommand extends Command
 {
-    protected $DOWNLOADS = [
+    protected static $DOWNLOADS = [
         'index.php'   => 'https://adminer.org/latest-en.php',
         'adminer.css' => 'https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css'
     ];
