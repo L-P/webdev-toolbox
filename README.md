@@ -9,6 +9,8 @@ Launch [Adminer](https://github.com/vrana/adminer) in a Firefox tab.
 If Adminer is not yet installed, the latest version will be downloaded. Don't
 get MITM'd.
 
+Use the `--force-update` flag to upgrade Adminer to its latest version.
+
 ### docker-shell
 Log into a docker container matched by a fuzzy name.
 

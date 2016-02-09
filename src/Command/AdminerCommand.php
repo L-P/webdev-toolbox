@@ -20,13 +20,21 @@ class AdminerCommand extends Command
         $this
             ->setName('adminer')
             ->setDescription('Launch Adminer in a browser tab.')
+            ->addOption(
+                'force-update',
+                null,
+                InputOption::VALUE_NONE,
+                'Update adminer.php even if it\'s already present.'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $cacheDir = $this->getCacheDirPath();
-        $this->prepareCache($cacheDir, self::$DOWNLOADS);
+        $update = (bool) $input->getOption('force-update');
+
+        $this->prepareCache($cacheDir, self::$DOWNLOADS, $update);
 
         $port = 8083;
         if ($this->serverIsRunning($port)) {
@@ -88,8 +96,9 @@ class AdminerCommand extends Command
      *
      * @param string $cacheDir path to cache directory.
      * @param string[] $downloads {dest: url}
+     * @param bool $update re-download even when cached
      */
-    private function prepareCache($cacheDir, $downloads)
+    private function prepareCache($cacheDir, $downloads, $update)
     {
         if (!file_exists($cacheDir)) {
             if (mkdir($cacheDir) !== true) {
@@ -108,7 +117,7 @@ class AdminerCommand extends Command
         foreach ($downloads as $destName => $url) {
             $dest = "$cacheDir/$destName";
 
-            if (!file_exists($dest)) {
+            if (!file_exists($dest) || $update) {
                 $contents = file_get_contents($url);
                 if ($contents === false) {
                     throw new \RuntimeException("Unable to download `$url`.");
