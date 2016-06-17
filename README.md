@@ -55,7 +55,7 @@ against the full container name (including namespace).
 
 ### httpping
 Ping an URL via HTTP/HTTPS and report the detailed timings.  
-Time are in milliseconds.
+Times are in milliseconds.
 
   * time: timestamp
   * size: bytes received
