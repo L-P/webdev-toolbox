@@ -53,7 +53,7 @@ class HttpPing extends Command
 
         $request = sprintf(
             "GET %s HTTP/1.1\r\n%s\r\n",
-            $parsed['path'],
+            array_key_exists('path', $parsed) ? $parsed['path'] : '',
             $this->getRawHeaders($parsed['host'])
         );
 
