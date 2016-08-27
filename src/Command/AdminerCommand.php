@@ -10,9 +10,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AdminerCommand extends Command
 {
-    protected static $DOWNLOADS = [
-        'index.php'   => 'https://adminer.org/latest-en.php',
-        'adminer.css' => 'https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css'
+    const DOWNLOADS = [
+        'adminer.php' => 'https://adminer.org/latest-en.php',
+        'adminer.css' => 'https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css',
+        'index.php'   => __DIR__ . '/../AdminerIndex.php',
     ];
 
     protected function configure()
@@ -34,7 +35,7 @@ class AdminerCommand extends Command
         $cacheDir = $this->getCacheDirPath();
         $update = (bool) $input->getOption('force-update');
 
-        $this->prepareCache($cacheDir, self::$DOWNLOADS, $update);
+        $this->prepareCache($cacheDir, self::DOWNLOADS, $update);
 
         $port = 8083;
         if ($this->serverIsRunning($port)) {
