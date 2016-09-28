@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c2cb49a0301638c26dc65c89bdfe234f",
-    "content-hash": "b5b5abfa9087456de8daecfdc369d618",
+    "hash": "95c4939a080d1256a836003240327451",
+    "content-hash": "a9b8ed8227d849ea0d3c6c27aa1a4716",
     "packages": [
         {
             "name": "lpeltier/struct",
@@ -174,7 +174,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">= 5.6"
+        "php": ">= 7.0"
     },
     "platform-dev": []
 }
