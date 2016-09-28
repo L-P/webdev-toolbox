@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AdminerCommand extends Command
+class Adminer extends Command
 {
     const DOWNLOADS = [
         'adminer.php' => 'https://adminer.org/latest-en.php',
