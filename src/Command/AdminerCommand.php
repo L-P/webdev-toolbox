@@ -13,7 +13,7 @@ class AdminerCommand extends Command
     const DOWNLOADS = [
         'adminer.php' => 'https://adminer.org/latest-en.php',
         'adminer.css' => 'https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css',
-        'index.php'   => __DIR__ . '/../AdminerIndex.php',
+        'index.php'   => __DIR__ . '/../Adminer/AdminerIndex.php',
     ];
 
     protected function configure()
