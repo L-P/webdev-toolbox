@@ -11,9 +11,9 @@
         }
     ],
     "require": {
-        "php": ">= 7.0",
+        "php": "^7.0",
         "symfony/console": "^3.0.0",
-        "lpeltier/struct": "^1.0.0"
+        "lpeltier/struct": "^2.0.0"
     },
     "autoload": {
         "psr-4": {
