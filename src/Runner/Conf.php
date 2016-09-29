@@ -32,7 +32,21 @@ class Conf
     public function expand(): self
     {
         foreach ($this->jobs as $job) {
-            $jobs[] = $job->expand();
+            if ($job->overrides === null) {
+                $jobs[] = $job->expand();
+            }
+        }
+
+        $indexedJobs = array_combine(array_column($this->jobs, 'name'), $this->jobs);
+
+        foreach ($this->jobs as $job) {
+            if ($job->overrides !== null) {
+                if (!array_key_exists($job->overrides, $indexedJobs)) {
+                    throw new \Exception("Job {$job->name} tried to override a non-existent job: {$job->overrides}");
+                }
+
+                $jobs[] = $job->override($indexedJobs[$job->overrides])->expand();
+            }
         }
 
         return new self([

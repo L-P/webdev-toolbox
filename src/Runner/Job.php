@@ -9,20 +9,39 @@ class Job
 {
     use \lpeltier\Struct;
 
-    /// @var string
+    /**
+     * @var string unique name
+     */
     public $name;
 
-    /// @var string[]
-    public $input = [];
+    /**
+     * @var string file this job will read.
+     */
+    public $input;
 
-    /// @var string[]
+    /**
+     * @var string[] files this job will write.
+     */
     public $outputs = [];
 
-    /// @var string[]
+    /**
+     * @var string[] a single command splitted on multiple lines to keep the
+     * JSON readable. This will be joined without a separator so remember to
+     * end lines with a semi-colon if you want to write a command per line.
+     */
     public $command = [];
 
-    /// @var string[]
+    /**
+     * @var string[] variables to substitute in the command, ie. {pouet} will
+     * be replaced by the value at the "pouet" key in this array.
+     */
     public $variables = [];
+
+    /**
+     * @var string what other job this on 'overrides', ie. copies and then
+     * replaces variables
+     */
+    public $overrides;
 
     /**
      * Expand variables in string templates.
@@ -40,7 +59,32 @@ class Job
         return $job;
     }
 
-    public function run()
+    /**
+     * Take a job and override its properties with ours.
+     *
+     * Only variables will be merged and replaced, all other properties will be
+     * fully replaced.
+     *
+     * @param Job $job job to override
+     */
+    public function override(Job $job): self
+    {
+        $data = [
+            // Fully overrides those.
+            'name'    => $this->name,
+            'input'   => $this->input === null ? $job->input : $this->input,
+            'outputs' => empty($this->outputs) ? $job->outputs : $this->outputs,
+            'command' => empty($this->command) ? $job->command : $this->command,
+
+            // Only merge variables
+            'variables' => array_replace($job->variables, $this->variables),
+        ];
+
+        return new Job($data);
+    }
+
+    /// Execute the command and return its execution stats
+    public function run(): Stats
     {
         $command = implode('', $this->command);
         $timer = Timer::create();

@@ -16,6 +16,8 @@ use WebdevToolbox\FileNotFoundException;
 
 class Runner extends Command
 {
+    private $output;
+
     protected function configure()
     {
         $this
@@ -25,37 +27,51 @@ class Runner extends Command
             ->addOption(
                 'config',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Path to the jobs configuration file.',
                 './jobs.json'
             )
             ->addOption(
                 'stats',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Where to write the execution stats.',
                 './stats.json'
+            )
+            ->addOption(
+                'dry-run',
+                null,
+                InputOption::VALUE_NONE,
+                'Dry-run. Show commands but don\'t run them.'
             )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
         $configPath = $input->getOption('config');
+        $dryRun = $input->getOption('dry-run');
         $config = $this->getConfig($configPath);
 
-        $this->runJobs($config->jobs);
+        $this->runJobs($config->jobs, $dryRun);
     }
 
-    private function runJobs(array $jobs)
+    private function runJobs(array $jobs, $dryRun)
     {
         foreach ($jobs as $job) {
             if (!$job->shouldRun() || !$job->canRun()) {
                 continue;
             }
 
-            $jobStats = $job->run();
-            $this->writeJobStats($job->name, $jobStats);
+            if ($dryRun) {
+                // Show as single command but keep original formatting
+                $commands = implode(" \\\n", $job->command);
+                $this->output->writeln($commands);
+            } else {
+                $jobStats = $job->run();
+                $this->writeJobStats($job->name, $jobStats);
+            }
         }
     }
 
