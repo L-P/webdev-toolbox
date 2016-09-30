@@ -157,4 +157,19 @@ class Job
             $vars
         );
     }
+
+    /**
+     * Remove job outputs from disk and return the path deleted.
+     */
+    public function clean(): array
+    {
+        return array_filter(array_map(function (string $path) {
+            if (is_file($path) && is_writeable(dirname($path))) {
+                unlink($path);
+                return $path;
+            }
+
+            return null;
+        }, $this->outputs));
+    }
 }

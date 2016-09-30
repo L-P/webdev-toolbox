@@ -82,11 +82,11 @@ class Runner extends Command
     private function cleanOutputs(array $jobs)
     {
         foreach ($jobs as $job) {
-            foreach ($job->outputs as $output) {
-                if (is_file($output) && is_writeable(dirname($output))) {
-                    $this->output->writeln("Remove file from job {$job->name}: $output");
-                    unlink($output);
-                }
+            $files = implode(' ', $job->clean());
+            if (strlen($files) > 0) {
+                $this->output->writeln("Removed file(s) from job {$job->name}: $files");
+            } else {
+                $this->output->writeln("No files to remove for job: {$job->name}");
             }
         }
     }
