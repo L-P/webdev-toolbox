@@ -144,7 +144,7 @@ class Job
     {
         $vars = [
             'name'    => $this->name,
-            'input'   => escapeshellarg($this->input),
+            'input'   => is_null($this->input) ? null : escapeshellarg($this->input),
             'outputs' => implode(' ', array_map('escapeshellarg', $this->outputs)),
         ] + $this->variables;
 
