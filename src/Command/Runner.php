@@ -62,9 +62,9 @@ class Runner extends Command
 
         $dryRun = $this->input->getOption('dry-run');
         $config = $this->getConfig($this->input->getOption('config-file'));
-        $stats  = $this->getStats($this->input->getOption('stats-file'));
 
         if ($this->input->getOption('stats')) {
+            $stats = $this->getStats($this->input->getOption('stats-file'));
             $this->displayStats($stats, $config->statsReference);
         } else {
             $this->runJobs($config->jobs, $dryRun);
