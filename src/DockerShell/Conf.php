@@ -1,6 +1,6 @@
 <?php
 
-namespace WebdevToolbox;
+namespace WebdevToolbox\DockerShell;
 
 /**
  * Configuration handler for the docker-shell command.

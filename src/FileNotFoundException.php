@@ -2,6 +2,6 @@
 
 namespace WebdevToolbox;
 
-class FileNotFoundException extends Exception
+class FileNotFoundException extends FileNotReadableException
 {
 }

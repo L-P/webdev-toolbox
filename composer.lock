@@ -4,28 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "95c4939a080d1256a836003240327451",
-    "content-hash": "a9b8ed8227d849ea0d3c6c27aa1a4716",
+    "hash": "7f01d9b19b464df9feba185277b443d4",
+    "content-hash": "121d83dc8fffe5dd9b84103eac13751a",
     "packages": [
         {
             "name": "lpeltier/struct",
-            "version": "1.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/L-P/struct.git",
-                "reference": "f0e01fac17b70a8ffb074e3ad00c8a8ca5531867"
+                "reference": "10eefffefd112b0b3d12f8c191cb1ea0ef4df5bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/L-P/struct/zipball/f0e01fac17b70a8ffb074e3ad00c8a8ca5531867",
-                "reference": "f0e01fac17b70a8ffb074e3ad00c8a8ca5531867",
+                "url": "https://api.github.com/repos/L-P/struct/zipball/10eefffefd112b0b3d12f8c191cb1ea0ef4df5bc",
+                "reference": "10eefffefd112b0b3d12f8c191cb1ea0ef4df5bc",
                 "shasum": ""
             },
             "require": {
-                "php": ">= 5.4"
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.7"
+                "phpunit/phpunit": "^5.5"
             },
             "type": "library",
             "autoload": {
@@ -45,7 +45,7 @@
                     "role": "developer"
                 }
             ],
-            "time": "2015-07-15 14:20:16"
+            "time": "2016-09-28 15:36:22"
         },
         {
             "name": "symfony/console",
@@ -174,7 +174,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">= 7.0"
+        "php": "^7.0"
     },
     "platform-dev": []
 }

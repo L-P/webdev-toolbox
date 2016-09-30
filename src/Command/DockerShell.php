@@ -8,9 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use WebdevToolbox\Conf;
+use WebdevToolbox\DockerShell\Conf;
 
-class DockerShellCommand extends Command
+class DockerShell extends Command
 {
     /// @var string name of the configuration file used by docker-compose.
     const COMPOSE_CONFIG = 'docker-compose.yml';

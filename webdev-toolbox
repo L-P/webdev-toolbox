@@ -9,8 +9,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 $app = new Application();
 $app->addCommands([
-    new Command\AdminerCommand(),
-    new Command\DockerShellCommand(),
+    new Command\Adminer(),
+    new Command\DockerShell(),
     new Command\HttpPing(),
+    new Command\Runner(),
 ]);
 $app->run();

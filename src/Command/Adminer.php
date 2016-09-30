@@ -8,12 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AdminerCommand extends Command
+class Adminer extends Command
 {
     const DOWNLOADS = [
         'adminer.php' => 'https://adminer.org/latest-en.php',
         'adminer.css' => 'https://raw.github.com/vrana/adminer/master/designs/hever/adminer.css',
-        'index.php'   => __DIR__ . '/../AdminerIndex.php',
+        'index.php'   => __DIR__ . '/../Adminer/AdminerIndex.php',
     ];
 
     protected function configure()

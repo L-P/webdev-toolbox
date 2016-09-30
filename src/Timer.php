@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace WebdevToolbox;
 
@@ -26,7 +27,7 @@ class Timer
      *
      * @return float seconds.
      */
-    public function elapsed()
+    public function elapsed(): float
     {
         return ($this->end === null)
             ? microtime(true) - $this->start
@@ -39,7 +40,7 @@ class Timer
      *
      * return @self
      */
-    public static function create()
+    public static function create(): self
     {
         $timer = new self();
         $timer->start();
