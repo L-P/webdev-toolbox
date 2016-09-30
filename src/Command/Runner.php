@@ -64,11 +64,10 @@ class Runner extends Command
                 continue;
             }
 
-            if ($dryRun) {
-                // Show as single command but keep original formatting
-                $commands = implode(" \\\n", $job->command);
-                $this->output->writeln($commands);
-            } else {
+            // Show as single command but keep original formatting
+            $commands = implode(" \\\n", $job->command);
+            $this->output->writeln($commands);
+            if (!$dryRun) {
                 $jobStats = $job->run();
                 $this->writeJobStats($job->name, $jobStats);
             }
