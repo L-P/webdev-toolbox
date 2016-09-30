@@ -126,7 +126,7 @@ Removed file(s) from job copy_urandom: urandom.bin
 ```
 
 Generated from configuration:
-``` 
+```json
 {
     "statsReference": "copy_zero",
     "jobs": [
