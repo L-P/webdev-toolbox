@@ -92,7 +92,10 @@ class Job
         $timer->end();
 
         $reduceSize = function (int $carry, string $path) : int {
-            return $carry + filesize($path);
+            return file_exists($path)
+                ? $carry + filesize($path)
+                : $carry
+            ;
         };
 
         return new Stats([

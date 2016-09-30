@@ -80,7 +80,12 @@ class Runner extends Command
     private function writeJobStats(string $jobName, Stats $jobStats)
     {
         $statsPath = $this->input->getOption('stats');
-        $stats = $this->getStats($statsPath);
+        try {
+            $stats = $this->getStats($statsPath);
+        } catch (FileNotFoundException $e) {
+            $stats = [];
+        }
+
         $stats[$jobName] = $jobStats;
 
         file_put_contents($statsPath, json_encode($stats, JSON_PRETTY_PRINT));
