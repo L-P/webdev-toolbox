@@ -78,7 +78,7 @@ class Runner extends Command
         );
     }
 
-    private function runJobs(array $jobs, $dryRun)
+    private function runJobs(array $jobs, bool $dryRun)
     {
         foreach ($jobs as $job) {
             if (!$job->shouldRun() || !$job->canRun()) {

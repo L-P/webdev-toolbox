@@ -32,7 +32,7 @@ class StatsFormatter
     {
         return array_map(function ($stat) {
             if ($stat->name === $this->referenceName) {
-                $size_diff = $time_diff = '-';
+                $size_diff = $time_diff = '';
             } else {
                 $size_diff = $time_diff = '+∞';
                 if ($this->reference->size !== 0) {
@@ -46,11 +46,11 @@ class StatsFormatter
             }
 
             return [
-                'name' => $stat->name,
-                'time' => $stat->formatTime(),
-                'time_diff' =>  $time_diff,
-                'size' => $stat->formatSize(),
-                'size_diff' =>  $size_diff,
+                'name'        => $stat->name,
+                'time'        => $stat->formatTime(),
+                'time_diff'   => $time_diff,
+                'size'        => $stat->formatSize(),
+                'size_diff'   => $size_diff,
                 'return_code' => $stat->returnCode,
             ];
         }, $this->stats);

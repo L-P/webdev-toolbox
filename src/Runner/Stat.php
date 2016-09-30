@@ -19,12 +19,12 @@ class Stat
     /// @var int
     public $returnCode;
 
-    public function formatTime()
+    public function formatTime(): string
     {
         return gmdate('H:i:s', (int) $this->time);
     }
 
-    public function formatSize()
+    public function formatSize(): string
     {
         return $this->bytesToString($this->size);
     }
