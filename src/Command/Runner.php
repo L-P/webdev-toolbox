@@ -52,6 +52,12 @@ class Runner extends Command
                 InputOption::VALUE_NONE,
                 'Display pretty stats.'
             )
+            ->addOption(
+                'clean',
+                null,
+                InputOption::VALUE_NONE,
+                'Remove all outputs.'
+            )
         ;
     }
 
@@ -66,8 +72,22 @@ class Runner extends Command
         if ($this->input->getOption('stats')) {
             $stats = $this->getStats($this->input->getOption('stats-file'));
             $this->displayStats($stats, $config->statsReference);
+        } elseif ($this->input->getOption('clean')) {
+            $this->cleanOutputs($config->jobs);
         } else {
             $this->runJobs($config->jobs, $dryRun);
+        }
+    }
+
+    private function cleanOutputs(array $jobs)
+    {
+        foreach ($jobs as $job) {
+            foreach ($job->outputs as $output) {
+                if (is_file($output) && is_writeable(dirname($output))) {
+                    $this->output->writeln("Remove file from job {$job->name}: $output");
+                    unlink($output);
+                }
+            }
         }
     }
 
@@ -81,12 +101,20 @@ class Runner extends Command
     private function runJobs(array $jobs, bool $dryRun)
     {
         foreach ($jobs as $job) {
-            if (!$job->shouldRun() || !$job->canRun()) {
-                $this->output->writeln('Nothing to be done for job: ' . $job->name);
+            $this->output->write("Running job {$job->name}: ");
+
+            if (!$job->canRun()) {
+                $this->output->writeln('job can\'t run now, skipping');
+                continue;
+            }
+
+            if (!$job->shouldRun()) {
+                $this->output->writeln('job outputs already generated, skipping');
                 continue;
             }
 
             // Show as single command but keep original formatting
+            $this->output->writeln('');
             $commands = implode(" \\\n", $job->command);
             $this->output->writeln($commands);
             if (!$dryRun) {
