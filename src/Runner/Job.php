@@ -98,7 +98,7 @@ class Job
         return new Stats([
             'time' => $timer->elapsed(),
             'size' => array_reduce($this->outputs, $reduceSize, 0),
-            'returnCode' => returnCode(),
+            'returnCode' => $returnCode,
         ]);
     }
 
