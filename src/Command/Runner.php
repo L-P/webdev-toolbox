@@ -17,6 +17,7 @@ use WebdevToolbox\FileNotFoundException;
 class Runner extends Command
 {
     private $output;
+    private $input;
 
     protected function configure()
     {
@@ -50,8 +51,10 @@ class Runner extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $configPath = $input->getOption('config');
-        $dryRun = $input->getOption('dry-run');
+        $this->input = $input;
+
+        $configPath = $this->input->getOption('config');
+        $dryRun = $this->input->getOption('dry-run');
         $config = $this->getConfig($configPath);
 
         $this->runJobs($config->jobs, $dryRun);
@@ -76,7 +79,7 @@ class Runner extends Command
 
     private function writeJobStats(string $jobName, Stats $jobStats)
     {
-        $statsPath = $input->getOption('stats');
+        $statsPath = $this->input->getOption('stats');
         $stats = $this->getStats($statsPath);
         $stats[$jobName] = $jobStats;
 
