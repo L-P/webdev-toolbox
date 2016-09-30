@@ -9,10 +9,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use WebdevToolbox\Runner\Job;
-use WebdevToolbox\Runner\Stats;
-use WebdevToolbox\Runner\Conf;
 use WebdevToolbox\FileNotFoundException;
+use WebdevToolbox\Runner\Conf;
+use WebdevToolbox\Runner\Job;
+use WebdevToolbox\Runner\Stat;
+use WebdevToolbox\Runner\StatsFormatter;
 
 class Runner extends Command
 {
@@ -26,14 +27,14 @@ class Runner extends Command
             ->setDescription('Task runner akin to make/ninja.')
             //->addArgument('job', InputArgument::OPTIONAL, 'Run a single job by name.')
             ->addOption(
-                'config',
+                'config-file',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Path to the jobs configuration file.',
                 './jobs.json'
             )
             ->addOption(
-                'stats',
+                'stats-file',
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Where to write the execution stats.',
@@ -45,6 +46,12 @@ class Runner extends Command
                 InputOption::VALUE_NONE,
                 'Dry-run. Show commands but don\'t run them.'
             )
+            ->addOption(
+                'stats',
+                null,
+                InputOption::VALUE_NONE,
+                'Display pretty stats.'
+            )
         ;
     }
 
@@ -53,17 +60,29 @@ class Runner extends Command
         $this->output = $output;
         $this->input = $input;
 
-        $configPath = $this->input->getOption('config');
         $dryRun = $this->input->getOption('dry-run');
-        $config = $this->getConfig($configPath);
+        $config = $this->getConfig($this->input->getOption('config-file'));
+        $stats  = $this->getStats($this->input->getOption('stats-file'));
 
-        $this->runJobs($config->jobs, $dryRun);
+        if ($this->input->getOption('stats')) {
+            $this->displayStats($stats, $config->statsReference);
+        } else {
+            $this->runJobs($config->jobs, $dryRun);
+        }
+    }
+
+    private function displayStats(array $stats, string $referenceName)
+    {
+        $this->output->writeln(
+            (new StatsFormatter(compact('stats', 'referenceName')))->run()
+        );
     }
 
     private function runJobs(array $jobs, $dryRun)
     {
         foreach ($jobs as $job) {
             if (!$job->shouldRun() || !$job->canRun()) {
+                $this->output->writeln('Nothing to be done for job: ' . $job->name);
                 continue;
             }
 
@@ -77,15 +96,17 @@ class Runner extends Command
         }
     }
 
-    private function writeJobStats(string $jobName, Stats $jobStats)
+    private function writeJobStats(string $jobName, Stat $jobStats)
     {
-        $statsPath = $this->input->getOption('stats');
+        $statsPath = $this->input->getOption('stats-file');
         try {
             $stats = $this->getStats($statsPath);
         } catch (FileNotFoundException $e) {
             $stats = [];
         }
 
+        /* We have the name in each row but we'll also use it as key
+         * to ensure uniqueness. */
         $stats[$jobName] = $jobStats;
 
         file_put_contents($statsPath, json_encode($stats, JSON_PRETTY_PRINT));
@@ -93,7 +114,10 @@ class Runner extends Command
 
     private function getStats(string $path): array
     {
-        return $this->getJsonData($path);
+        $data = $this->getJsonData($path);
+        return array_map(function (array $v) : Stat {
+            return new Stat($v);
+        }, $data);
     }
 
     private function getConfig(string $path): Conf

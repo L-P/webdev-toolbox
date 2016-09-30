@@ -84,7 +84,7 @@ class Job
     }
 
     /// Execute the command and return its execution stats
-    public function run(): Stats
+    public function run(): Stat
     {
         $command = implode('', $this->command);
         $timer = Timer::create();
@@ -98,7 +98,8 @@ class Job
             ;
         };
 
-        return new Stats([
+        return new Stat([
+            'name' => $this->name,
             'time' => $timer->elapsed(),
             'size' => array_reduce($this->outputs, $reduceSize, 0),
             'returnCode' => $returnCode,

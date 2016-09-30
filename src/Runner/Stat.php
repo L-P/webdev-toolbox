@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace WebdevToolbox\Runner;
 
-class Stats
+class Stat
 {
     use \lpeltier\Struct;
+
+    /// @var string
+    public $name;
 
     /// @var float
     public $time;
@@ -18,7 +21,7 @@ class Stats
 
     public function formatTime()
     {
-        return gmdate('H:i:s', $this->time);
+        return gmdate('H:i:s', (int) $this->time);
     }
 
     public function formatSize()
@@ -32,7 +35,7 @@ class Stats
      * @param int $bytes
      * @return string
      */
-    private function bytesToString(int $bytes): float
+    private function bytesToString(int $bytes): string
     {
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
