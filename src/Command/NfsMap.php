@@ -75,7 +75,7 @@ class NfsMap extends Command
             escapeshellarg($host)
         );
 
-        exec($cmd, $raw);
+        $raw = $this->cachedExec($cmd);
         return $raw;
     }
 
@@ -93,7 +93,7 @@ class NfsMap extends Command
             escapeshellarg($host)
         );
 
-        exec($cmd, $raw);
+        $raw = $this->cachedExec($cmd);
 
         return array_filter($raw, function ($v) {
             $type = explode(' ', $v)[0];
@@ -171,5 +171,32 @@ EOF;
         }, $edges));
 
         return sprintf($tpl, $edgesStr);
+    }
+
+    /**
+     * Cache an 'exec' call.
+     */
+    private function cachedExec(string $cmd): array
+    {
+        $home = posix_getpwuid(posix_geteuid())['dir'];
+        $cacheDir = "$home/.cache/webdev-toolbox";
+        $cachePath = "$home/.cache/webdev-toolbox/nfsmap.json";
+
+        if (!file_exists($cacheDir)) {
+            mkdir($cacheDir, 0755, true);
+        }
+
+        $cache = [];
+        if (file_exists($cachePath)) {
+            $cache = json_decode(file_get_contents($cachePath), true);
+        }
+
+        if (!array_key_exists($cmd, $cache)) {
+            exec($cmd, $raw);
+            $cache[$cmd] = $raw;
+            file_put_contents($cachePath, json_encode($cache, JSON_PRETTY_PRINT));
+        }
+
+        return $cache[$cmd];
     }
 }
