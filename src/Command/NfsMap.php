@@ -155,6 +155,13 @@ class NfsMap extends Command
     {
         $tpl = <<<EOF
 digraph mounts {
+    rankdir=LR;
+    label="NFS mounts";
+
+    edge [fontname="Inconsolata"];
+    node [fontname="Inconsolata"];
+    graph [fontname="Inconsolata"];
+
     %s
 }
 EOF;
@@ -163,7 +170,7 @@ EOF;
             $destination = $v['destination'];
 
             return sprintf(
-                '"%s" -> "%s" [label="  %s  "];',
+                '"%s" -> "%s" [label="%s"];',
                 addcslashes($source[0], '"'),
                 addcslashes($destination[0], '"'),
                 addcslashes("{$source[1]}:{$destination[1]}", '"')
