@@ -8,7 +8,8 @@ Table of contents:
 1. [adminer](#adminer)
 2. [docker-shell](#docker-shell)
 3. [httpping](#httping)
-4. [run](#run)
+4. [nfsmap](#nfsmap)
+5. [run](#run)
 
 ### adminer
 Launch [Adminer](https://github.com/vrana/adminer) in a Firefox tab.  
@@ -72,6 +73,12 @@ Times are in milliseconds.
     * receiving: time spent receiving the whole response
 
 Pings are done synchronously.
+
+### nfsmap
+Attempt to graph NFS mounts across servers and output a graphviz dot graph.
+
+This connects to each server using SSH and lists mounts and addresses using
+`df` and `ip`.
 
 ### run
 Run a set of jobs described in a `jobs.json` file. Originally made to execute
