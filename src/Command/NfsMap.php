@@ -75,14 +75,7 @@ class NfsMap extends Command
             escapeshellarg($host)
         );
 
-        $debugFile = "/home/lpeltier/.cache/.debug_ip_$host";
-        if (file_exists($debugFile)) { // DEBUG
-            $raw = json_decode(file_get_contents($debugFile));
-        } else {
-            exec($cmd, $raw);
-            file_put_contents($debugFile, json_encode($raw));
-        }
-
+        exec($cmd, $raw);
         return $raw;
     }
 
@@ -100,13 +93,7 @@ class NfsMap extends Command
             escapeshellarg($host)
         );
 
-        $debugFile = "/home/lpeltier/.cache/.debug_$host";
-        if (file_exists($debugFile)) { // DEBUG
-            $raw = json_decode(file_get_contents($debugFile));
-        } else {
-            exec($cmd, $raw);
-            file_put_contents($debugFile, json_encode($raw));
-        }
+        exec($cmd, $raw);
 
         return array_filter($raw, function ($v) {
             $type = explode(' ', $v)[0];
