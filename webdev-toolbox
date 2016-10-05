@@ -13,5 +13,6 @@ $app->addCommands([
     new Command\DockerShell(),
     new Command\HttpPing(),
     new Command\Runner(),
+    new Command\NfsMap(),
 ]);
 $app->run();
