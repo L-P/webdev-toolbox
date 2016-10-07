@@ -68,15 +68,13 @@ class NfsMap extends Command
 
     private function getIps(string $host): array
     {
-        $cmd = sprintf(
-            'ssh %s ip -4 a | tr -s " " | grep inet'   // list IPv4
-            . ' | grep -v "scope host lo"'             // remove localhost
-            . ' | cut -f 3 -d " " | cut -d "/" -f 1 ', // IP
+        return $this->cachedExec(sprintf(
+            'ssh %1$s hostname;'
+            . ' ssh %1$s ip -4 a | tr -s " " | grep inet' // list IPv4
+            . ' | grep -v "scope host lo"'                // remove localhost
+            . ' | cut -f 3 -d " " | cut -d "/" -f 1 ',    // IP
             escapeshellarg($host)
-        );
-
-        $raw = $this->cachedExec($cmd);
-        return $raw;
+        ));
     }
 
     /**
