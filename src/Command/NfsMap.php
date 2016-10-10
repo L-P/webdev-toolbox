@@ -24,12 +24,19 @@ class NfsMap extends Command
                 InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 'Host to SSH into.'
             )
+            ->addOption(
+                'strip',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Strip hostname prefixes on the graph.',
+                null
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $hosts = $this->getHosts($input->getArgument('host'));
+        $hosts = $this->getHosts($input->getArgument('host'), $input->getOption('strip'));
         $edges = $this->getHostGraphEdges($hosts);
 
         $dot = $this->renderGraph($edges);
@@ -37,13 +44,21 @@ class NfsMap extends Command
     }
 
     /**
+     * @param string[] $hostNames hosts we'll SSH into
+     * @param string $strip suffix to strip from the hostnames in the graph
      * @return Host[]
      */
-    private function getHosts(array $hostNames): array
+    private function getHosts(array $hostNames, string $strip): array
     {
-        return array_map(function ($name) {
+        return array_map(function ($name) use ($strip) {
             $mounts = $this->getMounts($name);
             $ips = $this->getIps($name);
+            if ($strip !== null) {
+                if (substr($name, -strlen($strip)) === $strip) {
+                    $name = substr($name, 0, -strlen($strip));
+                }
+            }
+
             return new Host(compact('name', 'mounts', 'ips'));
         }, $hostNames);
     }
