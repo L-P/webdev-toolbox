@@ -113,7 +113,7 @@ class DockerShell extends Command
      */
     private function pathToNamespaceSlug($path)
     {
-        $namespace = preg_replace('`\W`', '', basename($path));
+        $namespace = preg_replace('`[^a-zA-Z0-9-]`', '', basename($path));
         if (strlen($namespace) <= 0) {
             throw new \RuntimeException("Unable to create a namespace from path `$path`.");
         }
