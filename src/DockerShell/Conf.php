@@ -33,8 +33,7 @@ class Conf
     public function __construct()
     {
         $this->default = new ConfEntry([
-            'noLogin' => false,
-            'user' => posix_getpwuid(posix_getuid())['name'],
+            'noLogin' => true
         ]);
     }
 
