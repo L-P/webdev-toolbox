@@ -105,7 +105,7 @@ class HttpPing extends Command
         // Actually the time to first byte, that's what Chromium does.
         // stream_select returns right away giving nothing meaningful.
         $timers['waiting'] = Timer::create();
-        $size = fread($socket, 1);
+        $size = strlen(fread($socket, 1));
         $timers['waiting']->end();
 
         $timers['receiving'] = Timer::create();
